@@ -1,0 +1,27 @@
+<?php
+$title = 'My Blog';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<p>authorized users only</p>
+<?php $cnt = 0; foreach($blogposts as $post): ?>
+<div class="blogpost-outer"><div class="<?php echo ($cnt%2) ? 'gray' : 'white'; ?> blogpost">
+        
+<?php if($this->zfcUserIdentity() && $post->user_id == $this->zfcUserIdentity()->getId()): ?>
+<p>
+  <span><a href="<?php echo $this->url('blog-post', array('action' => 'edit', 'id' => $post->id)); ?>">Edit</a></span>
+  <span><a href="<?php echo $this->url('blog-post', array('action' => 'delete', 'id' => $post->id)); ?>">Delete</a></span>
+</p>
+<?php endif; ?>
+<p><small class=""><?php echo 'Written by ' . $this->escapeHtml($this->get_zfcuser_by_id_helper($post->user_id, null, $users)); ?></small></p>
+<p> 
+    <small class="small"><?php echo 'Created on ' . $this->escapeHtml($this->date_format_helper($post->created,'d-m-Y H:i')); ?></small>
+<?php if (isset($post->updated) && !empty($post->updated)): ?>
+    <br /><small class="small"><?php echo 'Updated on ' . $this->escapeHtml(date('d-m-Y H:i',strtotime( $post->updated ))); ?></small>
+<?php endif; ?>
+</p>
+<h2><a href="<?php echo $this->url('blog-post', array('action' => 'view', 'id' => $post->id)); ?>"><?php echo $this->escapeHtml($post->title); ?></a></h2>
+<p><?php echo $this->escapeHtml($post->intro); ?></p>
+<p><a href="<?php echo $this->url('blog-post', array('action' => 'view', 'id' => $post->id)); ?>">Read more</a></p>
+</div></div>
+<?php $cnt++; endforeach; ?>

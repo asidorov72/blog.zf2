@@ -1,0 +1,39 @@
+<?php
+
+$title = 'Edit post';
+$this->headTitle($title);
+
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php
+
+$form->setAttribute('action', $this->url('blog-post', array(
+    'action' => 'edit',
+    'id' => $this->id
+  )));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('id'));
+echo $this->formHidden($form->get('updated'));
+
+?>
+<div class="row mb-5">
+  <div class="col-md-1"><?php echo $this->formLabel($form->get('title')); ?></div>
+  <div class="col-md-11"><?php echo $this->formInput($form->get('title')); ?></div>
+</div>
+<div class="row mb-5">
+  <div class="col-md-1"><?php echo $this->formLabel($form->get('intro')); ?></div>
+  <div class="col-md-11"><?php echo $this->formTextarea($form->get('intro')); ?></div>
+</div>
+<div class="row mb-5">
+  <div class="col-md-1"><?php echo $this->formLabel($form->get('fulltext')); ?></div>
+  <div class="col-md-11"><?php echo $this->formTextarea($form->get('fulltext')); ?></div>
+</div>
+<div class="row mb-5">
+  <div class="col-md-1">&nbsp;</div>
+  <div class="col-md-11"><?php echo $this->formSubmit($form->get('submit')); ?></div>
+</div>
+<?php
+
+echo $this->form()->closeTag();
